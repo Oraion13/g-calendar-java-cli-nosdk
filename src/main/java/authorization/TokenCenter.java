@@ -1,6 +1,7 @@
 package authorization;
 
 import org.json.JSONObject;
+import org.json.JSONPropertyIgnore;
 
 import java.io.*;
 import java.net.URI;
@@ -54,12 +55,17 @@ public class TokenCenter {
     }
 
     private JSONObject getJSON(String fileName) throws IOException {
+        if(!(new File(fileName).exists())) return null;
+
         return new JSONObject(Files.readString(Path.of(fileName)));
     }
 
     public boolean isTokenExpired()  {
         try {
             JSONObject token = getJSON(dataDirectory.getAbsolutePath() + "/tokens.json");
+
+            if(token == null) return true;
+
             long expires_in = token.getLong("expires_in");
             Instant created_at = Instant.parse(token.getString("created_at"));
             long difference = Duration.between(created_at, Instant.now()).getSeconds();
@@ -75,13 +81,16 @@ public class TokenCenter {
     }
 
     public boolean refreshAccessToken() throws IOException {
-        JSONObject credentials = getJSON(credentialsFile.getAbsolutePath()).getJSONObject("installed");
+        JSONObject credentials = getJSON(credentialsFile.getAbsolutePath());
         JSONObject tokens = getJSON(dataDirectory.getAbsolutePath() + "/tokens.json");
+
+        if(credentials == null || tokens == null) return false;
 
         if(tokens.isNull("refresh_token")){
             return false;
         }
 
+        credentials = credentials.getJSONObject("installed");
         String tokenCredentialBody = "{\"client_id\":\"" + credentials.getString("client_id") + "\","
                 + "\"client_secret\":\"" + credentials.getString("client_secret") + "\","
                 + "\"grant_type\":\"" + "refresh_token" + "\","

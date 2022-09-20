@@ -77,10 +77,18 @@ public class Credentials {
         return new JSONObject(sb.toString());
     }
 
-    public void execute() throws IOException {
-        Credential credential = new Credential();
-        String auth_url = credential.getAUTH_URL();
+    public String execute() throws IOException {
+        if(!tokenCenter.isTokenExpired()){
+            return tokenCenter.getAccessToken();
+        }
 
+        if(tokenCenter.refreshAccessToken()){
+            return tokenCenter.getAccessToken();
+        }
+
+        Credential credential = new Credential();
+
+        String auth_url = credential.getAUTH_URL();
         browse(auth_url);
 
         Reciever reciever = new Reciever();
@@ -96,6 +104,7 @@ public class Credentials {
                 .thenApply(HttpResponse::body)
                 .thenApply(Credentials::parseBody).join();
 
+        return tokenCenter.getAccessToken();
     }
 
     public static String parseBody(String responseBody) {
