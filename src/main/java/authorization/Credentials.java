@@ -1,30 +1,63 @@
 package authorization;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.InetSocketAddress;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.awt.Desktop;
+import java.awt.Desktop.Action;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.sun.net.httpserver.*;
 
 import org.json.JSONObject;
 
+import static java.net.HttpURLConnection.HTTP_MOVED_TEMP;
+import static java.net.HttpURLConnection.HTTP_OK;
+
 public class Credentials {
-    private InputStream CREDENTIAL_FILE_STREAM;
+    /** Credentials Stored in JSON format */
+    private static InputStream CREDENTIAL_FILE_STREAM;
+    /**
+     * See, edit, share, and permanently delete all the calendars you can access
+     * using Google Calendar.
+     */
+    public static final String CALENDAR = "https://www.googleapis.com/auth/calendar";
+
+    /** View and edit events on all your calendars. */
+    public static final String CALENDAR_EVENTS = "https://www.googleapis.com/auth/calendar.events";
+
+    /** View events on all your calendars. */
+    public static final String CALENDAR_EVENTS_READONLY = "https://www.googleapis.com/auth/calendar.events.readonly";
+
+    /** See and download any calendar you can access using your Google Calendar. */
+    public static final String CALENDAR_READONLY = "https://www.googleapis.com/auth/calendar.readonly";
+
+    /** View your Calendar settings. */
+    public static final String CALENDAR_SETTINGS_READONLY = "https://www.googleapis.com/auth/calendar.settings.readonly";
+
+    private static final Logger LOGGER = Logger.getLogger(Credentials.class.getName());
 
     // get the FileStream which contains the JSON object
     public Credentials(InputStream fileStream) {
-        this.CREDENTIAL_FILE_STREAM = fileStream;
+        Credentials.CREDENTIAL_FILE_STREAM = fileStream;
     }
 
     /**
+     * Extract the credentials from a JSON file
      * 
-     * @return
+     * @return a JSON object containing the credentials
      * @throws IOException
      */
-    public JSONObject getJSON() throws IOException {
+    public static JSONObject getJSON() throws IOException {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = new BufferedReader(new InputStreamReader(CREDENTIAL_FILE_STREAM));
 
@@ -34,6 +67,37 @@ public class Credentials {
         }
 
         return new JSONObject(sb.toString());
+    }
+
+    public void execute() throws IOException {
+        Credential credential = new Credential();
+        String auth_url = credential.getAUTH_URL();
+
+        browse(auth_url);
+
+        Reciever reciever = new Reciever();
+        reciever.startRecievingServer();
+
+        String code = reciever.waitForCode();
+        System.out.println("code: " + code);
+    }
+
+    public void browse(String url) {
+        // Ask user to open in their browser using copy-paste
+        System.out.println("Please open the following address in your browser:");
+        System.out.println("  " + url);
+        // Attempt to open it in the browser
+        try {
+            if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                if (desktop.isSupported(Action.BROWSE)) {
+                    System.out.println("Attempting to open that address in the default browser now...");
+                    desktop.browse(URI.create(url));
+                }
+            }
+        } catch (IOException | InternalError e) {
+            LOGGER.log(Level.WARNING, "Unable to open browser", e);
+        }
     }
 
     /**
@@ -86,6 +150,98 @@ public class Credentials {
         public String getChallengeMethod() {
             return challengeMethod;
         }
+    }
+
+    private static class Credential {
+        private String AUTH_URI;
+        private String TOKEN_URI;
+
+        private String CLIENT_ID;
+        private String CLIENT_SECRET;
+        private String REDIRECT_URI;
+        private String RESPONSE_TYPE;
+        private String SCOPE;
+        private String STATE;
+        private String CODE_CHALLANGE;
+        private String CODE_CHALLANGE_METHOD;
+
+        private int PORT = 8888;
+
+        private String AUTH_URL;
+
+        public Credential() throws IOException {
+            System.out.println("Generating Auth URL...");
+            JSONObject credentials = getJSON().getJSONObject("installed");
+
+            AUTH_URI = credentials.getString("auth_uri");
+            TOKEN_URI = credentials.getString("token_uri");
+
+            CLIENT_ID = credentials.getString("client_id");
+            CLIENT_SECRET = credentials.getString("client_secret");
+            REDIRECT_URI = (String) credentials.getJSONArray("redirect_uris").get(0);
+            RESPONSE_TYPE = "code";
+            SCOPE = CALENDAR + "%20" + CALENDAR_EVENTS;
+            STATE = "secure_token";
+
+            PKCE pkce = new PKCE();
+            CODE_CHALLANGE = pkce.getChallenge();
+            CODE_CHALLANGE_METHOD = pkce.getChallengeMethod();
+
+            generateAuthURL();
+        }
+
+        private void generateAuthURL() {
+            AUTH_URL = AUTH_URI + "?" + "scope=" + SCOPE + "&" +
+                    "response_type=" + RESPONSE_TYPE + "&"
+                    + "state=" + STATE + "&"
+                    + "redirect_uri=" + REDIRECT_URI + "&"
+                    + "client_id=" + CLIENT_ID;
+        }
+
+        public String getCLIENT_ID() {
+            return CLIENT_ID;
+        }
+
+        public String getCLIENT_SECRET() {
+            return CLIENT_SECRET;
+        }
+
+        public String getREDIRECT_URI() {
+            return REDIRECT_URI;
+        }
+
+        public String getRESPONSE_TYPE() {
+            return RESPONSE_TYPE;
+        }
+
+        public String getSCOPE() {
+            return SCOPE;
+        }
+
+        public String getSTATE() {
+            return STATE;
+        }
+
+        public String getCODE_CHALLANGE() {
+            return CODE_CHALLANGE;
+        }
+
+        public String getCODE_CHALLANGE_METHOD() {
+            return CODE_CHALLANGE_METHOD;
+        }
+
+        public void setPORT(int PORT) {
+            this.PORT = PORT;
+        }
+
+        public int getPORT() {
+            return PORT;
+        }
+
+        public String getAUTH_URL() {
+            return AUTH_URL;
+        }
+
     }
 
 }
