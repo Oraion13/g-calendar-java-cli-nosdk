@@ -5,3 +5,7 @@
 build
 
 tokens/
+
+.idea
+
+.vscode
