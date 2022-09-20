@@ -12,4 +12,7 @@ repositories {
 
 dependencies {
     implementation 'org.json:json:20220320'
+    // https://mvnrepository.com/artifact/com.sun.net.httpserver/http
+    implementation 'com.sun.net.httpserver:http:20070405'
+
 }
