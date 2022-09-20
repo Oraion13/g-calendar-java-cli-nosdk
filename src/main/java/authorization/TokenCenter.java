@@ -100,14 +100,11 @@ public class TokenCenter {
     }
 
     public boolean revokeToken() throws IOException {
-        JSONObject tokens = getJSON(dataDirectory.getAbsolutePath() + "/tokens.json");
-
-        if(tokens.isNull("access_token")){
-            return false;
-        }
+        String accessToken = getAccessToken();
+        if(accessToken == null) return false;
 
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://oauth2.googleapis.com/revoke?token=" + tokens.getString("access_token")))
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://oauth2.googleapis.com/revoke?token=" + accessToken))
                 .POST(HttpRequest.BodyPublishers.ofString("")).build();
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
@@ -117,6 +114,16 @@ public class TokenCenter {
         new File(dataDirectory.getAbsolutePath() + "/tokens.json").deleteOnExit();
 
         return true;
+    }
+
+    public String getAccessToken() throws IOException {
+        JSONObject tokens = getJSON(dataDirectory.getAbsolutePath() + "/tokens.json");
+
+        if(tokens.isNull("access_token")){
+            return null;
+        }
+
+        return tokens.getString("access_token");
     }
 
 }
