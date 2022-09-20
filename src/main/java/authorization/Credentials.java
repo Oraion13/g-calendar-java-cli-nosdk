@@ -3,10 +3,16 @@ package authorization;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.URIParameter;
+import java.time.Instant;
 import java.util.Base64;
 import java.awt.Desktop;
 import java.awt.Desktop.Action;
@@ -26,6 +32,7 @@ import static java.net.HttpURLConnection.HTTP_OK;
 public class Credentials {
     /** Credentials Stored in JSON format */
     private static InputStream CREDENTIAL_FILE_STREAM;
+    private static TokenCenter tokenCenter;
     /**
      * See, edit, share, and permanently delete all the calendars you can access
      * using Google Calendar.
@@ -47,8 +54,9 @@ public class Credentials {
     private static final Logger LOGGER = Logger.getLogger(Credentials.class.getName());
 
     // get the FileStream which contains the JSON object
-    public Credentials(InputStream fileStream) {
+    public Credentials(InputStream fileStream, TokenCenter tokenCenter) {
         Credentials.CREDENTIAL_FILE_STREAM = fileStream;
+        Credentials.tokenCenter = tokenCenter;
     }
 
     /**
@@ -79,7 +87,28 @@ public class Credentials {
         reciever.startRecievingServer();
 
         String code = reciever.waitForCode();
-        System.out.println("code: " + code);
+        credential.setCODE(code);
+        tokenCenter.setTokenCredentials(credential.setTokenBody());
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = credential.generateTokenURL(tokenCenter);
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(Credentials::parseBody).join();
+
+    }
+
+    public static String parseBody(String responseBody) {
+        try{
+            StringBuilder str = new StringBuilder(responseBody);
+            str.deleteCharAt(str.length() - 1);
+            str.append(",").append("\"created_at\":\"").append(Instant.now()).append("\"}");
+            TokenCenter.setTokens(str.toString());
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public void browse(String url) {
@@ -164,10 +193,15 @@ public class Credentials {
         private String STATE;
         private String CODE_CHALLANGE;
         private String CODE_CHALLANGE_METHOD;
+        private String CODE_VERIFIER;
+
+        private String CODE;
+        private String GRANT_TYPE;
 
         private int PORT = 8888;
 
         private String AUTH_URL;
+        private String TOKEN_URL;
 
         public Credential() throws IOException {
             System.out.println("Generating Auth URL...");
@@ -182,10 +216,12 @@ public class Credentials {
             RESPONSE_TYPE = "code";
             SCOPE = CALENDAR + "%20" + CALENDAR_EVENTS;
             STATE = "secure_token";
+            GRANT_TYPE = "authorization_code";
 
             PKCE pkce = new PKCE();
             CODE_CHALLANGE = pkce.getChallenge();
             CODE_CHALLANGE_METHOD = pkce.getChallengeMethod();
+            CODE_VERIFIER = pkce.getVerifier();
 
             generateAuthURL();
         }
@@ -196,6 +232,19 @@ public class Credentials {
                     + "state=" + STATE + "&"
                     + "redirect_uri=" + REDIRECT_URI + "&"
                     + "client_id=" + CLIENT_ID;
+        }
+
+        public HttpRequest generateTokenURL(TokenCenter tokenCenter) throws FileNotFoundException {
+            return HttpRequest.newBuilder().uri(URI.create(TOKEN_URI))
+                    .POST(HttpRequest.BodyPublishers.ofFile(tokenCenter.getTokenCredentialsPath())).build();
+        }
+
+        public String setTokenBody() {
+            return "{\"client_id\":\"" + CLIENT_ID + "\","
+                    + "\"client_secret\":\"" + CLIENT_SECRET + "\","
+                    + "\"code\":\"" + CODE + "\","
+                    + "\"grant_type\":\"" + GRANT_TYPE + "\","
+                    + "\"redirect_uri\":\"" + REDIRECT_URI + "\"}";
         }
 
         public String getCLIENT_ID() {
@@ -240,6 +289,18 @@ public class Credentials {
 
         public String getAUTH_URL() {
             return AUTH_URL;
+        }
+
+        public String getCODE() {
+            return CODE;
+        }
+
+        public void setCODE(String CODE) {
+            this.CODE = CODE;
+        }
+
+        public String getGRANT_TYPE() {
+            return GRANT_TYPE;
         }
 
     }

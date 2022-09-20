@@ -62,7 +62,6 @@ public class Reciever {
                 return;
             }
 
-            try {
                 Map<String, String> parms = this.queryToMap(httpExchange.getRequestURI().getQuery());
                 error = parms.get("error");
                 code = parms.get("code");
@@ -70,9 +69,7 @@ public class Reciever {
                 Headers respHeaders = httpExchange.getResponseHeaders();
                 writeLandingHtml(httpExchange, respHeaders);
                 httpExchange.close();
-            } finally {
                 waitUnlessSignaled.release();
-            }
         }
 
         private Map<String, String> queryToMap(String query) {
