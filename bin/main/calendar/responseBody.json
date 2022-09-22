@@ -1,0 +1,154 @@
+{
+ "kind": "calendar#events",
+ "etag": "\"p33kavsdaviifk0g\"",
+ "summary": "kannan13112@gmail.com",
+ "updated": "2022-09-21T03:45:07.713Z",
+ "timeZone": "Asia/Calcutta",
+ "accessRole": "owner",
+ "defaultReminders": [
+  {
+   "method": "popup",
+   "minutes": 30
+  }
+ ],
+ "nextSyncToken": "COiv8ar8pPoCEOiv8ar8pPoCGAUg7OLV4gE=",
+ "items": [
+  {
+   "kind": "calendar#event",
+   "etag": "\"3326644485636000\"",
+   "id": "62b6tk5r84jgisofh6ic177b1c",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjJiNnRrNXI4NGpnaXNvZmg2aWMxNzdiMWMga2FubmFuMTMxMTJAbQ",
+   "created": "2022-09-16T09:57:22.000Z",
+   "updated": "2022-09-16T09:57:22.818Z",
+   "summary": "23 fri",
+   "creator": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2022-09-23T14:00:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "end": {
+    "dateTime": "2022-09-23T15:00:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "iCalUID": "62b6tk5r84jgisofh6ic177b1c@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   },
+   "eventType": "default"
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"3326858297754000\"",
+   "id": "7ia54surehj8hvd105q5dll5ko",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=N2lhNTRzdXJlaGo4aHZkMTA1cTVkbGw1a29fMjAyMjA5MjBUMTgzMDAwWiBrYW5uYW4xMzExMkBt",
+   "created": "2022-09-17T15:21:29.000Z",
+   "updated": "2022-09-17T15:39:08.877Z",
+   "summary": "updated event recurr",
+   "description": "updated",
+   "creator": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2022-09-21T00:00:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "end": {
+    "dateTime": "2022-10-10T00:00:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "recurrence": [
+    "RRULE:FREQ=YEARLY"
+   ],
+   "iCalUID": "7ia54surehj8hvd105q5dll5ko@google.com",
+   "sequence": 1,
+   "reminders": {
+    "useDefault": true
+   },
+   "eventType": "default"
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"3327118284604000\"",
+   "id": "nm5gt32decr0dj731qgr7srv8s",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=bm01Z3QzMmRlY3IwZGo3MzFxZ3I3c3J2OHNfMjAyMjA5MTlUMTgzMDAwWiBrYW5uYW4xMzExMkBt",
+   "created": "2022-09-19T03:45:42.000Z",
+   "updated": "2022-09-19T03:45:42.302Z",
+   "summary": "Monday recurr",
+   "description": "recurr",
+   "creator": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2022-09-20T00:00:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "end": {
+    "dateTime": "2022-09-21T00:00:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY"
+   ],
+   "iCalUID": "nm5gt32decr0dj731qgr7srv8s@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   },
+   "eventType": "default"
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"3327463815426000\"",
+   "id": "0q5m95sjbdcusfq1orn7sjetvs",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=MHE1bTk1c2piZGN1c2ZxMW9ybjdzamV0dnMga2FubmFuMTMxMTJAbQ",
+   "created": "2022-09-21T03:45:07.000Z",
+   "updated": "2022-09-21T03:45:07.713Z",
+   "summary": "tommorryyy",
+   "description": "frfr",
+   "creator": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2022-09-22T00:00:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "end": {
+    "dateTime": "2022-09-24T00:00:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "iCalUID": "0q5m95sjbdcusfq1orn7sjetvs@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   },
+   "eventType": "default"
+  }
+ ]
+}

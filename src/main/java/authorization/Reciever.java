@@ -50,6 +50,7 @@ public class Reciever {
         if (error != null) {
             throw new IOException("User authorization failed (" + error + ")");
         }
+        server.stop(0);
         return code;
     }
 

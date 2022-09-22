@@ -128,11 +128,12 @@ public class TokenCenter {
     public String getAccessToken() throws IOException {
         JSONObject tokens = getJSON(dataDirectory.getAbsolutePath() + "/tokens.json");
 
+        assert tokens != null;
         if(tokens.isNull("access_token")){
             return null;
         }
 
-        return tokens.getString("access_token");
+        return (tokens.getString("token_type") + " " + tokens.getString("access_token"));
     }
 
 }

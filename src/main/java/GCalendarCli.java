@@ -1,7 +1,9 @@
 import java.io.IOException;
+import java.util.TimeZone;
 
 import authorization.Credentials;
 import authorization.TokenCenter;
+import calendar.Calendar;
 
 public class GCalendarCli {
     /**
@@ -13,13 +15,19 @@ public class GCalendarCli {
      */
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
-    private static void getCredentials() throws IOException {
+    private static String getCredentials() throws IOException {
         String accessToken = new Credentials(GCalendarCli.class.getResourceAsStream(CREDENTIALS_FILE_PATH), new TokenCenter(new java.io.File(TOKENS_DIRECTORY_PATH))).execute();
 
         System.out.println("Access Token: " + accessToken);
+
+        return accessToken;
     }
 
     public static void main(String[] args) throws IOException {
-        getCredentials();
+        Calendar service = new Calendar(getCredentials());
+
+        new Operations(service);
+
+//        System.out.println(TimeZone.getDefault().getID());
     }
 }
