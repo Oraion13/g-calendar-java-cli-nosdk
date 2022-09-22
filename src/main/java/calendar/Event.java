@@ -13,7 +13,8 @@ import java.util.List;
 
 public class Event {
 
-    private static final String RESPONSE_BODY_FILE = new File("bin/main/calendar/responseBody.json").getAbsolutePath();
+    public static final String RESPONSE_BODY_FILE = new File("bin/main/calendar/responseBody.json").getAbsolutePath();
+    public static final String REQUEST_BODY_FILE = new File("bin/main/calendar/requestBody.json").getAbsolutePath();
 
     public void storeResponseBody(String responseBody){
         try {
@@ -24,6 +25,16 @@ public class Event {
             e.printStackTrace();
         }
 
+    }
+
+    public void storeJSONRequestBody(JSONObject requestBody){
+        try {
+            Path path = Path.of(REQUEST_BODY_FILE);
+
+            Files.writeString(path, requestBody.toString());
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public List<TypeEvent> getListOfEvents(){
@@ -160,7 +171,7 @@ public class Event {
         return event;
     }
 
-    public JSONObject setupResponseBody(TypeEvent event){
+    public JSONObject setupRequestBody(TypeEvent event){
         JSONObject eventObject = new JSONObject();
 
         if(event.getId() != null){
@@ -193,6 +204,8 @@ public class Event {
             if(event.getStart().getTimeZone() != null){
                 startObject.put("timeZone", event.getStart().getTimeZone());
             }
+
+            eventObject.put("start", startObject);
         }
 
         if(event.getEnd() != null){
@@ -209,7 +222,28 @@ public class Event {
             if(event.getStart().getTimeZone() != null){
                 endObject.put("timeZone", event.getEnd().getTimeZone());
             }
+
+            eventObject.put("end", endObject);
         }
+
+        if(!event.getRecurrence().isEmpty()){
+            eventObject.put("recurrence", event.getRecurrence().toString());
+        }
+
+        if(!event.getAttendees().isEmpty()){
+            eventObject.put("attendees", event.getAttendees().toString());
+        }
+
+        if(event.getEventType() != null){
+            eventObject.put("eventType", event.getEventType());
+        }
+
+        JSONObject remainders = new JSONObject();
+        remainders.put("useDefault", event.getRemainders().isUseDefault());
+        if(!event.getRemainders().isUseDefault() && !event.getRemainders().getOverrides().isEmpty()){
+            remainders.put("overrides", event.getRemainders().getOverrides().toString());
+        }
+        eventObject.put("remainders", remainders);
 
         return eventObject;
 

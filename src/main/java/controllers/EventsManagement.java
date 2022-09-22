@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
@@ -113,7 +114,7 @@ public class EventsManagement {
     }
 
 //    /**
-//     * GET events between two dates
+//     * GET events between two dates in map
 //     *
 //     * @param from  Events Starting date
 //     * @param to    Events Ending date
@@ -139,11 +140,22 @@ public class EventsManagement {
     /**
      * POST an event
      *
-     * @param event New Event to insert
+     * @param typeEvent New Event to insert
      * @throws IOException
      */
-    public void postEvent(TypeEvent event) throws IOException {
-//        event = service.events().insert(calanderId, event).execute();
+    public void postEvent(TypeEvent typeEvent) {
+        try{
+            String requestURL = "events";
+            Event event = new Event();
+
+            service.setRequestUrl(requestURL);
+            event.storeJSONRequestBody(event.setupRequestBody(typeEvent));
+            String responseBody = service.sendRequest("POST", Path.of(Event.REQUEST_BODY_FILE));
+            event.storeResponseBody(responseBody);
+        }catch (IOException | InterruptedException e){
+            e.printStackTrace();
+        }
+
     }
 
 //    /**

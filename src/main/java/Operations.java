@@ -1,7 +1,7 @@
 //import controllers.DeleteEvents;
 import controllers.EventsManagement;
 import controllers.GetEvents;
-//import controllers.PostEvents;
+import controllers.PostEvents;
 //import controllers.UpdateEvents;
 import utils.ValidIOHandlers;
 
@@ -70,10 +70,10 @@ public class Operations {
                     break;
 
                 // create events
-//                case 2:
-//                    new PostEvents(eventsManagement).postEvents();
-//                    break;
-//
+                case 2:
+                    new PostEvents(eventsManagement).postEvents();
+                    break;
+
 //                // delete events
 //                case 3:
 //                    new DeleteEvents(eventsManagement).deleteEvents();

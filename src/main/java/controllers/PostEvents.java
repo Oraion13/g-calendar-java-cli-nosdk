@@ -102,6 +102,11 @@ public class PostEvents {
             // set remainders
             if (ValidIOHandlers.getYorN("\nSet remainders or use default? [Y/n]: ")) {
                 setRemainder(event);
+            }else{
+                TypeEvent.Remainders remainders = event.new Remainders();
+                remainders.setUseDefault(true);
+
+                event.setRemainders(remainders);
             }
 
             eventsManagement.postEvent(event);
@@ -152,18 +157,19 @@ public class PostEvents {
         if (ValidIOHandlers.getYorN("Add start and end time? [Y/n]: ")) {
             timeFlag = true;
             sTime.setDateTime(setDateAndTime(start));
+            sTime.setTimeZone(TimeZone.getDefault().getID());
         } else {
-            sTime.setDate(EventsManagement.setDateTime(start, null));
+            sTime.setDate(start);
         }
-        sTime.setTimeZone(TimeZone.getDefault().getID());
 
-        // Event starting time
+        // Event ending time
         String end = ValidIOHandlers.getDate("Enter End date [YYYY-MM-DD]: ", 1);
         Event.TypeEvent.End eTime = event.new End();
         if (timeFlag) {
             eTime.setDateTime(setDateAndTime(end));
+            eTime.setTimeZone(TimeZone.getDefault().getID());
         } else {
-            eTime.setDate(EventsManagement.setDateTime(end, null));
+            eTime.setDate(end);
         }
 
         // set default values
@@ -216,8 +222,8 @@ public class PostEvents {
         String hour = ValidIOHandlers.getMinHour("Enter hour(HH)[0 - 23]: ", false);
         String minute = ValidIOHandlers.getMinHour("Enter minute(MM)[0 - 59]: ", true);
 
-        return date + "T" + (hour.length() == 2 ? hour : ("0" + hour))
-                + (minute.length() == 2 ? minute : ("0" + minute));
+        return date + "T" + (hour.length() == 2 ? hour : ("0" + hour)) + ":"
+                + (minute.length() == 2 ? minute : ("0" + minute)) + ":00Z";
     }
 
     /**
