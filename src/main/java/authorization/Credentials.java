@@ -77,27 +77,38 @@ public class Credentials {
         return new JSONObject(sb.toString());
     }
 
+    /**
+     * call this method to get access token
+     * @return
+     * @throws IOException
+     */
     public String execute() throws IOException {
+        // is token expired
         if(!tokenCenter.isTokenExpired()){
             return tokenCenter.getAccessToken();
         }
 
+        // if expired get refresh token
         if(tokenCenter.refreshAccessToken()){
             return tokenCenter.getAccessToken();
         }
 
         Credential credential = new Credential();
 
+        System.out.println("Setting up Auth URL...");
         String auth_url = credential.getAUTH_URL();
         browse(auth_url);
 
+        System.out.println("Setting up receiver...");
         Reciever reciever = new Reciever();
         reciever.startRecievingServer();
 
+        System.out.println("Waiting for 'code'...");
         String code = reciever.waitForCode();
         credential.setCODE(code);
         tokenCenter.setTokenCredentials(credential.setTokenBody());
 
+        System.out.println("Getting tokens...");
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = credential.generateTokenURL(tokenCenter);
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -107,10 +118,17 @@ public class Credentials {
         return tokenCenter.getAccessToken();
     }
 
+    /**
+     * Parse the tokens response body to String
+     *
+     * @param responseBody token credentials
+     * @return response as string
+     */
     public static String parseBody(String responseBody) {
         try{
             StringBuilder str = new StringBuilder(responseBody);
             str.deleteCharAt(str.length() - 1);
+            // to check if a token is expired
             str.append(",").append("\"created_at\":\"").append(Instant.now()).append("\"}");
             TokenCenter.setTokens(str.toString());
         }catch (IOException e){

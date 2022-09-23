@@ -14,7 +14,9 @@ import java.time.Duration;
 import java.time.Instant;
 
 public class TokenCenter {
+    /** To Store tokens */
     private static File dataDirectory;
+    /** credentials like client id and secrets are stored here */
     private static File credentialsFile;
 
     public TokenCenter(File dataDirectory) throws IOException {
@@ -32,24 +34,29 @@ public class TokenCenter {
 
     }
 
+    /** get the path where token credentials are stored */
     public Path getTokenCredentialsPath(){
         return Path.of(dataDirectory.getAbsolutePath() + "/tokenCredentials.json");
     }
 
+    /** store the token credentials in a file */
     public void setTokenCredentials(String token) throws IOException {
         Path tokenCredentials = Path.of(dataDirectory.getAbsolutePath() + "/tokenCredentials.json");
         Files.writeString(tokenCredentials, token);
     }
 
+    /** get the path where tokens are stored */
     public Path getTokenPath(){
         return Path.of(dataDirectory.getAbsolutePath() + "/tokens.json");
     }
 
+    /** store the tokens */
     public static void setTokens(String token) throws IOException {
         Path tokenCredentials = Path.of(dataDirectory.getAbsolutePath() + "/tokens.json");
         Files.writeString(tokenCredentials, token);
     }
 
+    /** get the data of a file as JSON object */
     public static JSONObject getJSON(Path fileName) throws IOException {
         return new JSONObject(Files.readString(fileName));
     }
@@ -108,6 +115,7 @@ public class TokenCenter {
         return true;
     }
 
+    /** unsubscribe */
     public boolean revokeToken() throws IOException {
         String accessToken = getAccessToken();
         if(accessToken == null) return false;
