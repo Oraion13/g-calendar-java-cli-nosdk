@@ -36,19 +36,20 @@ public class EventsManagement {
         }
     }
 
-//    /**
-//     * Print events in map
-//     *
-//     * @param events Events in a Map<Integer, Event>
-//     */
-//    public void printMapEvents(Map<Integer, Event> events) {
-//        System.out.println();
-//        for (Map.Entry<Integer, Event> event : events.entrySet()) {
-//            System.out.println(
-//                    event.getKey() + " : " + event.getValue().getSummary() + " || "
-//                            + event.getValue().getStart().getDateTime());
-//        }
-//    }
+    /**
+     * Print events in map
+     *
+     * @param events Events in a Map<Integer, Event>
+     */
+    public void printMapEvents(Map<Integer, TypeEvent> events) {
+        System.out.println();
+        for (Map.Entry<Integer, TypeEvent> event : events.entrySet()) {
+            System.out.println(
+                    event.getKey() + " : " + event.getValue().getSummary() + " || ");
+            System.out.println(event.getValue().getStart().getDateTime() != null ?
+                    event.getValue().getStart().getDateTime() : event.getValue().getStart().getDate());
+        }
+    }
 
     // ----------------------------- Get Events ----------------------------- //
 
@@ -93,55 +94,57 @@ public class EventsManagement {
      * @return a list of events List<Event>
      * @throws IOException
      */
-    public List<TypeEvent> getEventsBetween(String from, String to, int limit) throws IOException, InterruptedException {
+    public List<TypeEvent> getEventsBetween(String from, String to, int limit) {
         String requestURL;
-
-        if(to.equals("0")){
-            requestURL = "events?maxResults=" + limit
-                    + "&timeMin=" + setDateTime(from, "00:00:00");
-        }else{
-            requestURL = "events?maxResults=" + limit + "&timeMax=" + setDateTime(to, "00-00-00")
-                    + "&timeMin=" + setDateTime(from, "00:00:00");
-        }
-
-        service.setRequestUrl(requestURL);
-        String responseBody = service.sendRequest("GET", null);
-
         Event event = new Event();
-        event.storeResponseBody(responseBody);
+
+        try{
+            if (to.equals("0")) {
+                requestURL = "events?maxResults=" + limit
+                        + "&timeMin=" + setDateTime(from, "00:00:00");
+            } else {
+                requestURL = "events?maxResults=" + limit + "&timeMax=" + setDateTime(to, "00-00-00")
+                        + "&timeMin=" + setDateTime(from, "00:00:00");
+            }
+
+            service.setRequestUrl(requestURL);
+            String responseBody = service.sendRequest("GET", null);
+
+            event.storeResponseBody(responseBody);
+        }catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return event.getListOfEvents();
     }
 
-//    /**
-//     * GET events between two dates in map
-//     *
-//     * @param from  Events Starting date
-//     * @param to    Events Ending date
-//     * @param limit N - events
-//     * @return a list of events Map<Integer, Event>
-//     * @throws IOException
-//     */
-//    public Map<Integer, Event> getEventsInMap(String from, String to, int limit) throws IOException {
-//        Map<Integer, Event> map = new HashMap<>();
-//        int counter = 0;
-//
-//        // get a list of events
-//        List<Event> events = getEventsBetween(from, to, 10);
-//
-//        // put all events with an associated ID to delete
-//        for (Event event : events) {
-//            map.put(++counter, event);
-//        }
-//
-//        return map;
-//    }
+    /**
+     * GET events between two dates in map
+     *
+     * @param from  Events Starting date
+     * @param to    Events Ending date
+     * @param limit N - events
+     * @return a list of events Map<Integer, Event>
+     */
+    public Map<Integer, TypeEvent> getEventsInMap(String from, String to, int limit) {
+        Map<Integer, TypeEvent> map = new HashMap<>();
+        int counter = 0;
+
+        // get a list of events
+        List<TypeEvent> events = getEventsBetween(from, to, 10);
+
+        // put all events with an associated ID to delete
+        for (TypeEvent event : events) {
+            map.put(++counter, event);
+        }
+
+        return map;
+    }
 
     /**
      * POST an event
      *
      * @param typeEvent New Event to insert
-     * @throws IOException
      */
     public void postEvent(TypeEvent typeEvent) {
         try{
@@ -149,32 +152,48 @@ public class EventsManagement {
             Event event = new Event();
 
             service.setRequestUrl(requestURL);
-            event.storeJSONRequestBody(event.setupRequestBody(typeEvent));
+            event.storeJSONRequestBody(event.setupRequestBody(typeEvent, "POST"));
             String responseBody = service.sendRequest("POST", Path.of(Event.REQUEST_BODY_FILE));
             event.storeResponseBody(responseBody);
         }catch (IOException | InterruptedException e){
             e.printStackTrace();
         }
-
     }
 
-//    /**
-//     * DELETE an event
-//     *
-//     * @param eventID an Event ID
-//     * @throws IOException
-//     */
-//    public void deleteEvent(String eventID) throws IOException {
-//        service.events().delete(calanderId, eventID).execute();
-//    }
-//
-//    /**
-//     * PUT (UPDATE) an event
-//     *
-//     * @param event An Event to update
-//     * @throws IOException
-//     */
-//    public void updateEvent(Event event) throws IOException {
-//        service.events().update(calanderId, event.getId(), event).execute();
-//    }
+    /**
+     * DELETE an event
+     *
+     * @param eventID an Event ID
+     */
+    public void deleteEvent(String eventID) {
+        try{
+            String requestURL = "events/" + eventID;
+
+            Event event = new Event();
+            service.setRequestUrl(requestURL);
+            String responseBody = service.sendRequest("DELETE", null);
+            event.storeResponseBody(responseBody);
+        }catch (IOException | InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * PUT (UPDATE) an event
+     *
+     * @param typeEvent An Event to update
+     */
+    public void updateEvent(TypeEvent typeEvent, String updateId) {
+        try{
+            String requestURL = "events/" + updateId;
+            Event event = new Event();
+
+            service.setRequestUrl(requestURL);
+            event.storeJSONRequestBody(event.setupRequestBody(typeEvent, "PUT"));
+            String responseBody = service.sendRequest("PUT", Path.of(Event.REQUEST_BODY_FILE));
+            event.storeResponseBody(responseBody);
+        }catch (IOException | InterruptedException e){
+            e.printStackTrace();
+        }
+    }
 }

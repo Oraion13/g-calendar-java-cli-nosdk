@@ -333,20 +333,22 @@ public class PostEvents {
     private void setRemainderEvents(TypeEvent.Remainders remainders, List<TypeEvent.Remainders.Overrides> overrides, String method) {
         System.out.println("Enter remainder time: \n");
 
-        if (ValidIOHandlers.getYorN("In Hours? [Y/n]: ")) {
-            System.out.print("Enter Hour before actual event: ");
-            int hour = Integer.parseInt(System.console().readLine());
-            TypeEvent.Remainders.Overrides override = remainders.new Overrides();
-            override.setMethod(method);
-            override.setMinutes(hour * 60L);
-            overrides.add(override);
-        } else {
-            System.out.print("Enter Minutes before actual event: ");
-            int minutes = Integer.parseInt(System.console().readLine());
-            TypeEvent.Remainders.Overrides override = remainders.new Overrides();
-            override.setMethod(method);
-            override.setMinutes(minutes);
-            overrides.add(override);
+        try{
+            if (ValidIOHandlers.getYorN("In Hours? [Y/n]: ")) {
+                int hour = Integer.parseInt(ValidIOHandlers.getMinHour("Enter Hour before actual event: ", false));
+                TypeEvent.Remainders.Overrides override = remainders.new Overrides();
+                override.setMethod(method);
+                override.setMinutes(hour * 60L);
+                overrides.add(override);
+            } else {
+                int minutes = Integer.parseInt(ValidIOHandlers.getMinHour("Enter Minutes before actual event: ", true));
+                TypeEvent.Remainders.Overrides override = remainders.new Overrides();
+                override.setMethod(method);
+                override.setMinutes(minutes);
+                overrides.add(override);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 

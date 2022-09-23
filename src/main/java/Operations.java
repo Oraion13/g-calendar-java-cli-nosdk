@@ -1,8 +1,8 @@
-//import controllers.DeleteEvents;
+import controllers.DeleteEvents;
 import controllers.EventsManagement;
 import controllers.GetEvents;
 import controllers.PostEvents;
-//import controllers.UpdateEvents;
+import controllers.UpdateEvents;
 import utils.ValidIOHandlers;
 
 import calendar.Calendar;
@@ -75,14 +75,14 @@ public class Operations {
                     break;
 
 //                // delete events
-//                case 3:
-//                    new DeleteEvents(eventsManagement).deleteEvents();
-//                    break;
-//
-//                // update events
-//                case 4:
-//                    new UpdateEvents(eventsManagement).updateEvent();
-//                    break;
+                case 3:
+                    new DeleteEvents(eventsManagement).deleteEvents();
+                    break;
+
+                // update events
+                case 4:
+                    new UpdateEvents(eventsManagement).updateEvent();
+                    break;
 
                 default:
                     return choice;

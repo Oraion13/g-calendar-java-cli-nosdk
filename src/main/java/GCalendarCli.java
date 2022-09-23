@@ -28,6 +28,5 @@ public class GCalendarCli {
 
         new Operations(service);
 
-//        System.out.println(TimeZone.getDefault().getID());
     }
 }

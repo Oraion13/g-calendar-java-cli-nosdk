@@ -1,13 +1,13 @@
 {
  "kind": "calendar#event",
- "etag": "\"3327698096928000\"",
- "id": "ki6qh1np2taitj2eujdsfi8s9o",
+ "etag": "\"3327759291465000\"",
+ "id": "tv65igbeop3l05djrj6hg0ed84",
  "status": "confirmed",
- "htmlLink": "https://www.google.com/calendar/event?eid=a2k2cWgxbnAydGFpdGoyZXVqZHNmaThzOW8ga2FubmFuMTMxMTJAbQ",
- "created": "2022-09-22T12:17:28.000Z",
- "updated": "2022-09-22T12:17:28.464Z",
- "summary": "no sdk time",
- "description": "time",
+ "htmlLink": "https://www.google.com/calendar/event?eid=dHY2NWlnYmVvcDNsMDVkanJqNmhnMGVkODQga2FubmFuMTMxMTJAbQ",
+ "created": "2022-09-22T12:16:08.000Z",
+ "updated": "2022-09-23T05:18:42.924Z",
+ "summary": "new no sdk no time",
+ "description": "no time",
  "creator": {
   "email": "kannan13112@gmail.com",
   "self": true
@@ -17,17 +17,21 @@
   "self": true
  },
  "start": {
-  "dateTime": "2022-09-26T12:55:00+05:30",
-  "timeZone": "Asia/Kolkata"
+  "date": "2022-09-25"
  },
  "end": {
-  "dateTime": "2022-09-26T13:55:00+05:30",
-  "timeZone": "Asia/Kolkata"
+  "date": "2022-09-26"
  },
- "iCalUID": "ki6qh1np2taitj2eujdsfi8s9o@google.com",
- "sequence": 0,
+ "iCalUID": "tv65igbeop3l05djrj6hg0ed84@google.com",
+ "sequence": 1,
  "reminders": {
-  "useDefault": true
+  "useDefault": false,
+  "overrides": [
+   {
+    "method": "popup",
+    "minutes": 30
+   }
+  ]
  },
  "eventType": "default"
 }

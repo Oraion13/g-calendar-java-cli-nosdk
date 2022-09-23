@@ -171,7 +171,7 @@ public class Event {
         return event;
     }
 
-    public JSONObject setupRequestBody(TypeEvent event){
+    public JSONObject setupRequestBody(TypeEvent event, String method){
         JSONObject eventObject = new JSONObject();
 
         if(event.getId() != null){
@@ -238,12 +238,21 @@ public class Event {
             eventObject.put("eventType", event.getEventType());
         }
 
-        JSONObject remainders = new JSONObject();
-        remainders.put("useDefault", event.getRemainders().isUseDefault());
-        if(!event.getRemainders().isUseDefault() && !event.getRemainders().getOverrides().isEmpty()){
-            remainders.put("overrides", event.getRemainders().getOverrides().toString());
+        if(method.compareTo("PUT") == 0 && (event.getRemainders() != null)){
+            JSONObject remainders = new JSONObject();
+            remainders.put("useDefault", event.getRemainders().isUseDefault());
+            if(!event.getRemainders().isUseDefault() && !event.getRemainders().getOverrides().isEmpty()){
+                remainders.put("overrides", event.getRemainders().getOverrides().toString());
+            }
+            eventObject.put("remainders", remainders);
+        }else if(method.compareTo("POST") == 0){
+            JSONObject remainders = new JSONObject();
+            remainders.put("useDefault", event.getRemainders().isUseDefault());
+            if(!event.getRemainders().isUseDefault() && !event.getRemainders().getOverrides().isEmpty()){
+                remainders.put("overrides", event.getRemainders().getOverrides().toString());
+            }
+            eventObject.put("remainders", remainders);
         }
-        eventObject.put("remainders", remainders);
 
         return eventObject;
 
