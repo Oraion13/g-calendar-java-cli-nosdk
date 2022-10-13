@@ -1,37 +1,317 @@
 {
- "kind": "calendar#event",
- "etag": "\"3327759291465000\"",
- "id": "tv65igbeop3l05djrj6hg0ed84",
- "status": "confirmed",
- "htmlLink": "https://www.google.com/calendar/event?eid=dHY2NWlnYmVvcDNsMDVkanJqNmhnMGVkODQga2FubmFuMTMxMTJAbQ",
- "created": "2022-09-22T12:16:08.000Z",
+ "kind": "calendar#events",
+ "etag": "\"p33gd7sftiilfk0g\"",
+ "summary": "kannan13112@gmail.com",
  "updated": "2022-09-23T05:18:42.924Z",
- "summary": "new no sdk no time",
- "description": "no time",
- "creator": {
-  "email": "kannan13112@gmail.com",
-  "self": true
- },
- "organizer": {
-  "email": "kannan13112@gmail.com",
-  "self": true
- },
- "start": {
-  "date": "2022-09-25"
- },
- "end": {
-  "date": "2022-09-26"
- },
- "iCalUID": "tv65igbeop3l05djrj6hg0ed84@google.com",
- "sequence": 1,
- "reminders": {
-  "useDefault": false,
-  "overrides": [
-   {
-    "method": "popup",
-    "minutes": 30
-   }
-  ]
- },
- "eventType": "default"
+ "timeZone": "Asia/Calcutta",
+ "accessRole": "owner",
+ "defaultReminders": [
+  {
+   "method": "popup",
+   "minutes": 30
+  }
+ ],
+ "nextPageToken": "CigKGjQ2OTh1Mm42YjBwaDZ1a3Q1c2M5NXIzZXNwGAEggIDA8Jr2lpoYGg8IABIAGODT8f2UqvoCIAEiBwgCEMquhik=",
+ "items": [
+  {
+   "kind": "calendar#event",
+   "etag": "\"3042260486888000\"",
+   "id": "jq4vk151f14v4ab469s9091ri8",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=anE0dmsxNTFmMTR2NGFiNDY5czkwOTFyaTgga2FubmFuMTMxMTJAbQ",
+   "created": "2018-03-15T16:10:43.000Z",
+   "updated": "2018-03-15T16:10:43.444Z",
+   "summary": "Bhuvana's birthday",
+   "creator": {
+    "email": "kannan13112@gmail.com",
+    "displayName": "Kamal Kannan",
+    "self": true
+   },
+   "organizer": {
+    "email": "kannan13112@gmail.com",
+    "displayName": "Kamal Kannan",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2018-04-04T22:00:48+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "end": {
+    "dateTime": "2018-04-04T23:00:48+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "iCalUID": "jq4vk151f14v4ab469s9091ri8@google.com",
+   "sequence": 0,
+   "attendees": [
+    {
+     "email": "kannan13112@gmail.com",
+     "displayName": "Kamal Kannan",
+     "organizer": true,
+     "self": true,
+     "responseStatus": "accepted"
+    }
+   ],
+   "reminders": {
+    "useDefault": true
+   },
+   "eventType": "default"
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"3253643909188000\"",
+   "id": "71i6adj464q66bb561hjgb9k68r6abb26dgmabb46lj62db1cpj6ac346s",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NzFpNmFkajQ2NHE2NmJiNTYxaGpnYjlrNjhyNmFiYjI2ZGdtYWJiNDZsajYyZGIxY3BqNmFjMzQ2cyBrYW5uYW4xMzExMkBt",
+   "created": "2021-07-20T22:59:14.000Z",
+   "updated": "2021-07-20T22:59:14.594Z",
+   "creator": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2021-07-21T19:00:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "end": {
+    "dateTime": "2021-07-21T20:00:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "iCalUID": "71i6adj464q66bb561hjgb9k68r6abb26dgmabb46lj62db1cpj6ac346s@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   },
+   "eventType": "default"
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"3294010579713000\"",
+   "id": "68q38dhgc4p36b9i6oq38b9kccqm2b9occojab9lckrj8p9n6gom4chg64",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjhxMzhkaGdjNHAzNmI5aTZvcTM4YjlrY2NxbTJiOW9jY29qYWI5bGNrcmo4cDluNmdvbTRjaGc2NCBrYW5uYW4xMzExMkBt",
+   "created": "2022-03-11T13:28:09.000Z",
+   "updated": "2022-03-11T13:28:09.956Z",
+   "summary": "kubecon EU check mail",
+   "creator": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "start": {
+    "date": "2022-04-04"
+   },
+   "end": {
+    "date": "2022-04-05"
+   },
+   "iCalUID": "68q38dhgc4p36b9i6oq38b9kccqm2b9occojab9lckrj8p9n6gom4chg64@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": false
+   },
+   "eventType": "default"
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"3294980323962000\"",
+   "id": "coo68e1p70r32b9m74r66b9kc9h6cb9p6dgj4b9n68o36p3371h32c1i6g",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y29vNjhlMXA3MHIzMmI5bTc0cjY2YjlrYzloNmNiOXA2ZGdqNGI5bjY4bzM2cDMzNzFoMzJjMWk2ZyBrYW5uYW4xMzExMkBt",
+   "created": "2022-03-17T04:09:21.000Z",
+   "updated": "2022-03-17T04:09:22.120Z",
+   "summary": "Gsoc application",
+   "creator": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "start": {
+    "date": "2022-04-04"
+   },
+   "end": {
+    "date": "2022-04-05"
+   },
+   "iCalUID": "coo68e1p70r32b9m74r66b9kc9h6cb9p6dgj4b9n68o36p3371h32c1i6g@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": false
+   },
+   "eventType": "default"
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"3297610253448000\"",
+   "id": "60q36pj6cdh3gbb2chh3ib9kc9i62b9pc4rj6b9h70qjgcpl6lgj4opm6g",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjBxMzZwajZjZGgzZ2JiMmNoaDNpYjlrYzlpNjJiOXBjNHJqNmI5aDcwcWpnY3BsNmxnajRvcG02ZyBrYW5uYW4xMzExMkBt",
+   "created": "2022-04-01T09:25:26.000Z",
+   "updated": "2022-04-01T09:25:26.854Z",
+   "summary": "mech certs",
+   "creator": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2022-04-04T06:00:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "end": {
+    "dateTime": "2022-04-04T07:00:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "iCalUID": "60q36pj6cdh3gbb2chh3ib9kc9i62b9pc4rj6b9h70qjgcpl6lgj4opm6g@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": false,
+    "overrides": [
+     {
+      "method": "popup",
+      "minutes": 5
+     }
+    ]
+   },
+   "eventType": "default"
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"3326439577880000\"",
+   "id": "3tvu46a4122tpedukgiigr1pkh",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=M3R2dTQ2YTQxMjJ0cGVkdWtnaWlncjFwa2gga2FubmFuMTMxMTJAbQ",
+   "created": "2022-09-15T04:58:07.000Z",
+   "updated": "2022-09-15T05:29:48.940Z",
+   "summary": "testing",
+   "creator": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2022-09-15T14:45:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "end": {
+    "dateTime": "2022-09-15T16:00:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "iCalUID": "3tvu46a4122tpedukgiigr1pkh@google.com",
+   "sequence": 5,
+   "reminders": {
+    "useDefault": true
+   },
+   "eventType": "default"
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"3326644421374000\"",
+   "id": "5v8blksmir9vc143d8beitdo8p",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NXY4Ymxrc21pcjl2YzE0M2Q4YmVpdGRvOHAga2FubmFuMTMxMTJAbQ",
+   "created": "2022-09-16T09:56:50.000Z",
+   "updated": "2022-09-16T09:56:50.687Z",
+   "summary": "today",
+   "creator": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2022-09-16T19:30:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "end": {
+    "dateTime": "2022-09-16T20:30:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "iCalUID": "5v8blksmir9vc143d8beitdo8p@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   },
+   "eventType": "default"
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"3326644452840000\"",
+   "id": "2aleadf0ngei8tbr382ovk18h6",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=MmFsZWFkZjBuZ2VpOHRicjM4Mm92azE4aDYga2FubmFuMTMxMTJAbQ",
+   "created": "2022-09-16T09:57:06.000Z",
+   "updated": "2022-09-16T09:57:06.420Z",
+   "summary": "19 mon",
+   "creator": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2022-09-19T14:00:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "end": {
+    "dateTime": "2022-09-19T15:00:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "iCalUID": "2aleadf0ngei8tbr382ovk18h6@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   },
+   "eventType": "default"
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"3326644467138000\"",
+   "id": "4698u2n6b0ph6ukt5sc95r3esp",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NDY5OHUybjZiMHBoNnVrdDVzYzk1cjNlc3Aga2FubmFuMTMxMTJAbQ",
+   "created": "2022-09-16T09:57:13.000Z",
+   "updated": "2022-09-16T09:57:13.569Z",
+   "summary": "20 tue",
+   "creator": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "organizer": {
+    "email": "kannan13112@gmail.com",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2022-09-20T13:30:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "end": {
+    "dateTime": "2022-09-20T14:30:00+05:30",
+    "timeZone": "Asia/Kolkata"
+   },
+   "iCalUID": "4698u2n6b0ph6ukt5sc95r3esp@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   },
+   "eventType": "default"
+  }
+ ]
 }

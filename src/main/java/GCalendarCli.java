@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.TimeZone;
 
 import authorization.Credentials;
 import authorization.TokenCenter;
@@ -27,6 +26,5 @@ public class GCalendarCli {
         Calendar service = new Calendar(getCredentials());
 
         new Operations(service);
-
     }
 }

@@ -1,3 +1,5 @@
+import authentication.LoginSignup;
+import authentication.OTPGenerator;
 import controllers.DeleteEvents;
 import controllers.EventsManagement;
 import controllers.GetEvents;
@@ -13,6 +15,21 @@ public class Operations {
     // main caller
     public Operations(Calendar service) {
         this.eventsManagement = new EventsManagement(service, "primary");
+        while (true) {
+            // print the options
+            preMainOptions();
+            int choice = preMainOperations();
+
+            // exit point
+            if (choice != 0) {
+                continue;
+            }
+
+            break;
+        }
+    }
+
+    private void callMainOps(){
         while (true) {
             // print the options
             mainOptions();
@@ -82,6 +99,49 @@ public class Operations {
                 // update events
                 case 4:
                     new UpdateEvents(eventsManagement).updateEvent();
+                    break;
+
+                default:
+                    return choice;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return choice;
+    }
+
+    private void preMainOptions() {
+        System.out.print("\033[H\033[2J");
+        System.out.println("\n------------------------------------------");
+        System.out.println("\t\tGoogle Calander");
+        System.out.println("------------------------------------------\n");
+        System.out.println("\n------------------------------------------");
+        System.out.println("Choices: ");
+        System.out.println("0 - Exit");
+        System.out.println("1 - Login");
+        System.out.println("2 - Sign up");
+        System.out.println("------------------------------------------\n");
+    }
+
+    private int preMainOperations() {
+        int choice = 0;
+        try {
+            choice = ValidIOHandlers.getChoice("Enter a choice [0 - 4]: ");
+
+            switch (choice) {
+                // Login
+                case 1:
+                    boolean isLoggedIn = new LoginSignup().userLogin();
+                    // Do operations for login and redirect to main operations
+                    if(isLoggedIn){
+                        callMainOps();
+                    }
+                    break;
+
+                // Signup
+                case 2:
+                    new LoginSignup().signup();
                     break;
 
                 default:
