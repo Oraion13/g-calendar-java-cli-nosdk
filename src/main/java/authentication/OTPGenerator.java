@@ -119,7 +119,10 @@ public class OTPGenerator implements Runnable {
 
         int otp = binary % 1000000; // 6 - digit value is sufficient
 
-        return appendToLength(Integer.toString(otp), 6);
+        String otpExtended = appendToLength(Integer.toString(otp), 6);
+        this.otp = otpExtended;
+        
+        return otpExtended;
     }
 
     @Override
