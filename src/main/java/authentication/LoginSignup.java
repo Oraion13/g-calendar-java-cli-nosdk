@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class LoginSignup {
     // Path to store user credentials
-    public static final String USER_DATA_FILE = new File("bin/main/authentication/user_data.json").getAbsolutePath();
+    private static final String USER_DATA_FILE = new File("bin/main/authentication/user_data.json").getAbsolutePath();
 
     // write user data in file
     private void setUserData(String userData){
@@ -29,6 +29,10 @@ public class LoginSignup {
     private JSONObject getUserData() throws IOException {
         if(!(new File(USER_DATA_FILE).exists())) return null;
 
+        String fileContent = Files.readString(Path.of(USER_DATA_FILE));
+        if(fileContent == null ||
+                fileContent.length() == 0)
+            return null;
         return new JSONObject(Files.readString(Path.of(USER_DATA_FILE)));
     }
 
@@ -124,11 +128,14 @@ public class LoginSignup {
             JSONObject user = new JSONObject();
             user.put("username", username);
             user.put("key", key);
-
+            System.out.println("Secret Key: " + key);
+            System.out.println("Use this website to get a QR code: https://www.the-qrcode-generator.com/");
             // append the new user
             appendUser(user);
 
-            System.out.println("User created successfully!");
+            System.out.println("User created successfully!\n");
+
+            ValidIOHandlers.getString("Enter anything to exit...");
             break;
         }
 
@@ -154,11 +161,14 @@ public class LoginSignup {
             OTPGenerator otpGenerator = new OTPGenerator();
             // set the key
             otpGenerator.setKey(key);
-            Thread t1 = new Thread(otpGenerator);
-            t1.start();
+
+            // For testing purpose only
+//            Thread t1 = new Thread(otpGenerator);
+//            t1.start();
 
             System.out.println("Enter '0' to exit...");
             while(true){
+//                System.out.println(otpGenerator.generateOTP());
                 int otp = ValidIOHandlers.getChoice("Enter the OTP [Number / 0]: ");
 
                 if(otp == 0){
@@ -166,11 +176,14 @@ public class LoginSignup {
                     break;
                 }
 
-                if(Integer.parseInt(otpGenerator.getOtp()) == otp){
+                // get the otp to check
+                if(Integer.parseInt(otpGenerator.generateOTP()) == otp){
                     otpGenerator.setSTOP_FLAG(true);
                     System.out.println("Login successfully!");
                     return true;
                 }
+
+                System.out.println("Invalid OTP!...");
             }
         }catch (IOException e){
             e.printStackTrace();

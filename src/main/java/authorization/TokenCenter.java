@@ -71,7 +71,7 @@ public class TokenCenter {
         try {
             JSONObject token = getJSON(dataDirectory.getAbsolutePath() + "/tokens.json");
 
-            if(token == null) return true;
+            if(token == null || token.isNull("expires_in")) return true;
 
             long expires_in = token.getLong("expires_in");
             Instant created_at = Instant.parse(token.getString("created_at"));

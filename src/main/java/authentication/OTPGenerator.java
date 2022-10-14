@@ -8,6 +8,8 @@ import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Arrays;
+import java.util.TimeZone;
 
 public class OTPGenerator implements Runnable {
     private byte[] key;
@@ -25,9 +27,13 @@ public class OTPGenerator implements Runnable {
 
     public OTPGenerator(){
     }
-    public void setKey(String key){
+    public void setKey(String key) {
         // key length = 40
-        this.key =  getKeyInBytes(key);
+        try{
+            this.key = Base32String.decode(key);
+        }catch(Base32String.DecodingException e){
+            e.printStackTrace();
+        }
     }
 
     // prepend with 0's
@@ -41,35 +47,23 @@ public class OTPGenerator implements Runnable {
 
     // hex string to byte[]
     private byte[] hexStrToBytes(String hexStr){
-//        // declare the byte array
-//        byte[] byteArr = new byte[hexStr.length() / 2];
-//
-//        for (int i = 0; i < byteArr.length; i++) {
-//            int index = i * 2;
-//            int strToInt = Integer.parseInt(hexStr.substring(index, index + 2), 16);
-//            byteArr[i] = (byte) strToInt;
-//        }
-//
-//        return byteArr;
+        // declare the byte array
+        byte[] byteArr = new byte[hexStr.length() / 2];
 
-        byte[] bArray = new BigInteger("10" + hexStr, 16).toByteArray();
+        for (int i = 0; i < byteArr.length; i++) {
+            int index = i * 2;
+            int strToInt = Integer.parseInt(hexStr.substring(index, index + 2), 16);
+            byteArr[i] = (byte) strToInt;
+        }
 
-        // Copy all the REAL bytes, not the "first"
-        byte[] ret = new byte[bArray.length - 1];
-        System.arraycopy(bArray, 1, ret, 0, ret.length);
-        return ret;
+        return byteArr;
     }
 
     // Get the current time stamp in hex to calculate TOTP
     private byte[] getTimeStampInBytes(){
         long T0 = 0; // network time delay
-        long currentTimeInMilli = System.currentTimeMillis() / 1000L; // get unix epoch milli
+        long currentTimeInMilli = (System.currentTimeMillis()) / 1000L; // get unix epoch milli
         long epochTimeStamp = (currentTimeInMilli - T0) / 30; // calculate the time stamp ( 30s interval )
-
-//        LocalDateTime date =
-//                LocalDateTime.ofInstant(Instant.ofEpochMilli(currentTimeInMilli), ZoneId.systemDefault());
-//        System.out.println("Date: " + date.getDayOfMonth() + "-" + date.getMonth() + "-" + date.getYear());
-//        System.out.println("Time: " + date.getHour() + ":" + date.getMinute() + ":" + date.getSecond());
 
         return hexStrToBytes(appendToLength(Long.toHexString(epochTimeStamp), 16));
     }
@@ -82,9 +76,10 @@ public class OTPGenerator implements Runnable {
     // generate a key of length 40 ( Numbers )
     public static String generateKey(){
         StringBuilder key = new StringBuilder();
+        String Rand_str = "abcdefghijklmnopqrstuvwxyz";
 
-        for(int i = 0; i < 40; i++){
-            key.append(getRandomNumber(0, 10));
+        for(int i = 0; i < 32; i++){
+            key.append(Rand_str.charAt(getRandomNumber(0, 26)));
         }
 
         return key.toString();
@@ -100,6 +95,7 @@ public class OTPGenerator implements Runnable {
         try {
             Mac hmac;
             hmac = Mac.getInstance("HmacSHA1");
+            // key should be base32 encoded already
             SecretKeySpec macKey =
                     new SecretKeySpec(key, "RAW");
             hmac.init(macKey);
@@ -117,9 +113,9 @@ public class OTPGenerator implements Runnable {
 
         // last hex value decides what 4 bytes should be taken
         int binary = ((hash[offset] & 0x7f) << 24) | // MSB
-                        ((hash[offset + 1] & 0xff) << 16) |
-                        ((hash[offset + 2] & 0xff) << 8) |
-                        (hash[offset + 3] & 0xff); // LSB
+                ((hash[offset + 1] & 0xff) << 16) |
+                ((hash[offset + 2] & 0xff) << 8) |
+                (hash[offset + 3] & 0xff); // LSB
 
         int otp = binary % 1000000; // 6 - digit value is sufficient
 
@@ -130,12 +126,17 @@ public class OTPGenerator implements Runnable {
     public void run() {
         while(!STOP_FLAG){
             try {
-                otp = generateOTP();
-                System.out.println("System OTP: " + otp);
+                long T0 = 0; // network time delay
+                long currentTimeInMilli = (System.currentTimeMillis()) / 1000L; // get unix epoch milli
+                long epochTimeStamp = (currentTimeInMilli - T0) / 30;
+                System.out.println("Time stamp: " + epochTimeStamp);
+
+                System.out.println("System OTP: " + generateOTP());
                 LocalDateTime date =
-                LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault());
-                System.out.println("Sleeping " + (30 - date.getSecond() % 30) + "s ...");
-                Thread.sleep((30 - date.getSecond() % 30) * 1000);
+                        LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault());
+                System.out.println("Remaining " + (30 - date.getSecond() % 30) + "s ...");
+//                Thread.sleep((30 - date.getSecond() % 30) * 1000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
