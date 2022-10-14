@@ -76,10 +76,10 @@ public class OTPGenerator implements Runnable {
     // generate a key of length 40 ( Numbers )
     public static String generateKey(){
         StringBuilder key = new StringBuilder();
-        String Rand_str = "abcdefghijklmnopqrstuvwxyz";
+        String Rand_str = "abcdefghijklmnopqrstuvwxyz234567";
 
         for(int i = 0; i < 32; i++){
-            key.append(Rand_str.charAt(getRandomNumber(0, 26)));
+            key.append(Rand_str.charAt(getRandomNumber(0, 32)));
         }
 
         return key.toString();

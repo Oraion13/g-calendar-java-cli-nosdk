@@ -163,8 +163,8 @@ public class LoginSignup {
             otpGenerator.setKey(key);
 
             // For testing purpose only
-//            Thread t1 = new Thread(otpGenerator);
-//            t1.start();
+            Thread t1 = new Thread(otpGenerator);
+            t1.start();
 
             System.out.println("Enter '0' to exit...");
             while(true){
