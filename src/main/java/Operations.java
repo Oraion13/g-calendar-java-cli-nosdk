@@ -9,12 +9,14 @@ import utils.ValidIOHandlers;
 
 import calendar.Calendar;
 
+import java.io.IOException;
+
 public class Operations {
     EventsManagement eventsManagement = null;
 
     // main caller
-    public Operations(Calendar service) {
-        this.eventsManagement = new EventsManagement(service, "primary");
+    public Operations() {
+
         while (true) {
             // print the options
             preMainOptions();
@@ -30,18 +32,25 @@ public class Operations {
     }
 
     private void callMainOps(){
-        while (true) {
-            // print the options
-            mainOptions();
-            int choice = mainOperations();
+        try{
+            Calendar service = new Calendar(GCalendarCli.getCredentials());
+            this.eventsManagement = new EventsManagement(service, "primary");
+            while (true) {
+                // print the options
+                mainOptions();
+                int choice = mainOperations();
 
-            // exit point
-            if (choice != 0) {
-                continue;
+                // exit point
+                if (choice != 0) {
+                    continue;
+                }
+
+                break;
             }
-
-            break;
+        }catch (IOException e){
+            e.printStackTrace();
         }
+
     }
 
     // ----------------------------- Main Operations ---------------------------- //
@@ -52,11 +61,11 @@ public class Operations {
     private void mainOptions() {
         System.out.print("\033[H\033[2J");
         System.out.println("\n------------------------------------------");
-        System.out.println("\t\tGoogle Calander");
+        System.out.println("\t\tGoogle Calendar");
         System.out.println("------------------------------------------\n");
         System.out.println("\n------------------------------------------");
         System.out.println("Choices: ");
-        System.out.println("0 - Exit");
+        System.out.println("0 - Logout");
         System.out.println("1 - Display events");
         System.out.println("2 - Create events");
         System.out.println("3 - Delete events");
@@ -66,14 +75,13 @@ public class Operations {
 
     /**
      * Get a main operation choice
-     * 
-     * 0 - Exit
+     * 0 - Logout
      * 1 - Display events
      * 2 - Create events
      * 3 - Delete events
      * 4 - Update events
      * 
-     * @return an intger value (main option)
+     * @return an integer value (main option)
      */
     private int mainOperations() {
         int choice = 0;
@@ -114,7 +122,7 @@ public class Operations {
     private void preMainOptions() {
         System.out.print("\033[H\033[2J");
         System.out.println("\n------------------------------------------");
-        System.out.println("\t\tGoogle Calander");
+        System.out.println("\t\tGoogle Calendar");
         System.out.println("------------------------------------------\n");
         System.out.println("\n------------------------------------------");
         System.out.println("Choices: ");
@@ -127,7 +135,7 @@ public class Operations {
     private int preMainOperations() {
         int choice = 0;
         try {
-            choice = ValidIOHandlers.getChoice("Enter a choice [0 - 4]: ");
+            choice = ValidIOHandlers.getChoice("Enter a choice [0 - 2]: ");
 
             switch (choice) {
                 // Login

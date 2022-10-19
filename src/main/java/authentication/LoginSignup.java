@@ -8,9 +8,45 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Scanner;
+
+import java.util.HashMap;
+import java.util.Map;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 public class LoginSignup {
+    public static void generateQRcode(String data, String path, String charset, Map map, int h, int w) throws WriterException, IOException
+    {
+//the BitMatrix class represents the 2D matrix of bits
+//MultiFormatWriter is a factory class that finds the appropriate Writer subclass for the BarcodeFormat requested and encodes the barcode with the supplied contents.
+        BitMatrix matrix = new MultiFormatWriter().encode(new String(data.getBytes(charset), charset), BarcodeFormat.QR_CODE, w, h);
+        MatrixToImageWriter.writeToFile(matrix, path.substring(path.lastIndexOf('.') + 1), new File(path));
+    }
+
+    public static void callGenerateQRcode(String qrString, String qrPath)
+    {
+        try{
+            //Encoding charset to be used
+            String charset = "UTF-8";
+            Map<EncodeHintType, ErrorCorrectionLevel> hashMap = new HashMap<EncodeHintType, ErrorCorrectionLevel>();
+//generates QR code with Low level(L) error correction capability
+            hashMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+            int dimension = 500;
+//invoking the user-defined method that creates the QR code
+            generateQRcode(qrString, qrPath, charset, hashMap, dimension, dimension);//increase or decrease height and width accodingly
+//prints if the QR code is generated
+            System.out.println("QR Code created successfully.");
+            new ImageJFrame();
+        }catch (WriterException | IOException e){
+            e.printStackTrace();
+        }
+    }
+
     // Path to store user credentials
     private static final String USER_DATA_FILE = new File("bin/main/authentication/user_data.json").getAbsolutePath();
 
@@ -129,7 +165,10 @@ public class LoginSignup {
             user.put("username", username);
             user.put("key", key);
             System.out.println("Secret Key: " + key);
-            System.out.println("Use this website to get a QR code: https://www.the-qrcode-generator.com/");
+            callGenerateQRcode(key, "QRCode.png");
+            System.out.println("\nScan the QR code to get secret key \nOR \nUse this website to get a QR code: https://www.thonky.com/qrcode/");
+
+
             // append the new user
             appendUser(user);
 
@@ -163,12 +202,11 @@ public class LoginSignup {
             otpGenerator.setKey(key);
 
             // For testing purpose only
-            Thread t1 = new Thread(otpGenerator);
-            t1.start();
+//            Thread t1 = new Thread(otpGenerator);
+//            t1.start();
 
             System.out.println("Enter '0' to exit...");
             while(true){
-//                System.out.println(otpGenerator.generateOTP());
                 int otp = ValidIOHandlers.getChoice("Enter the OTP [Number / 0]: ");
 
                 if(otp == 0){
@@ -191,6 +229,4 @@ public class LoginSignup {
 
         return false;
     }
-
-
 }

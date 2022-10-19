@@ -14,7 +14,7 @@ public class GCalendarCli {
      */
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
-    private static String getCredentials() throws IOException {
+    public static String getCredentials() throws IOException {
         String accessToken = new Credentials(GCalendarCli.class.getResourceAsStream(CREDENTIALS_FILE_PATH), new TokenCenter(new java.io.File(TOKENS_DIRECTORY_PATH))).execute();
 
         System.out.println("Access Token: " + accessToken);
@@ -23,8 +23,6 @@ public class GCalendarCli {
     }
 
     public static void main(String[] args) throws IOException {
-        Calendar service = new Calendar(getCredentials());
-
-        new Operations(service);
+        new Operations();
     }
 }

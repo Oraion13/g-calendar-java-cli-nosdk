@@ -31,25 +31,25 @@ public class Base32String {
         if (encoded.length() == 0) {
             return new byte[0];
         }
-        int encodedLength = encoded.length();
-        int outLength = encodedLength * SHIFT / 8;
+        int encodedLength = encoded.length(); // actual input length
+        int outLength = encodedLength * SHIFT / 8; // output byte array length ( SHIFT represents the no. of bits used in base32 - 1 (5 - 1 = 4) )
         byte[] result = new byte[outLength];
-        int buffer = 0;
-        int next = 0;
-        int bitsLeft = 0;
+        int buffer = 0; // used to calculate the actual letter ( buffer size = 8, base32 char bits = 5)
+        int next = 0; // array index counter
+        int bitsLeft = 0; // bits inside the buffer
         for (char c : encoded.toCharArray()) {
             if (!CHAR_MAP.containsKey(c)) {
                 throw new DecodingException("Illegal character: " + c);
             }
-            buffer <<= SHIFT;
-            buffer |= CHAR_MAP.get(c) & MASK;
-            bitsLeft += SHIFT;
-            if (bitsLeft >= 8) {
-                result[next++] = (byte) (buffer >> (bitsLeft - 8));
-                bitsLeft -= 8;
+            buffer <<= SHIFT; // making space for a base32 char in buffer
+            buffer |= CHAR_MAP.get(c) & MASK; // like subnet masking
+            bitsLeft += SHIFT; // how many bits left
+            if (bitsLeft >= 8) { // if buffer overloaded
+                result[next++] = (byte) (buffer >> (bitsLeft - 8)); // take only 8-bit char from buffer and shift the extra bits to right
+                bitsLeft -= 8; // reset the buffer for next character
             }
         }
-        // We'll ignore leftover bits for now.
+        // We'll ignore leftover bits for now. ( padded... )
         //
         // if (next != outLength || bitsLeft >= SHIFT) {
         //  throw new DecodingException("Bits left: " + bitsLeft);

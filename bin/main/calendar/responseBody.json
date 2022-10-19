@@ -1,8 +1,8 @@
 {
  "kind": "calendar#events",
- "etag": "\"p33gd7sftiilfk0g\"",
+ "etag": "\"p330fpr68hv4fk0g\"",
  "summary": "kannan13112@gmail.com",
- "updated": "2022-09-23T05:18:42.924Z",
+ "updated": "2022-10-05T03:14:21.672Z",
  "timeZone": "Asia/Calcutta",
  "accessRole": "owner",
  "defaultReminders": [
@@ -11,7 +11,7 @@
    "minutes": 30
   }
  ],
- "nextPageToken": "CigKGjQ2OTh1Mm42YjBwaDZ1a3Q1c2M5NXIzZXNwGAEggIDA8Jr2lpoYGg8IABIAGODT8f2UqvoCIAEiBwgCEMquhik=",
+ "nextPageToken": "CigKGjQ2OTh1Mm42YjBwaDZ1a3Q1c2M5NXIzZXNwGAEggIDA8Jr2lpoYGg8IABIAGMD87MiPyPoCIAEiBwgCENe89Ck=",
  "items": [
   {
    "kind": "calendar#event",
